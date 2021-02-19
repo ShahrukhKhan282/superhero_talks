@@ -65,10 +65,6 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //drawer: MyDrawer(),
-        // appBar: AppBar(
-        //   title: Text(_pages[_selectedPageIndex]['title']),
-        // ),
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             onTap: _selectPage,

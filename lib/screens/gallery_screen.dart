@@ -58,8 +58,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
           slivers: [
             SliverAppBar(
               backgroundColor: Colors.black,
-              //pinned: true,
-
               stretch: true,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(

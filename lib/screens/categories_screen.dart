@@ -7,18 +7,6 @@ import 'wallpaper_screen.dart';
 import 'gallery_screen.dart';
 import 'package:http/http.dart' as http;
 
-// final List<String> imgList = [
-//   'https://wallpapercave.com/wp/wp2663986.png',
-//   'https://www.mordeo.org/files/uploads/2020/09/Iron-Man-Fortnite-4K-Ultra-HD-Mobile-Wallpaper-950x1689.jpg',
-//   'https://wallpapercave.com/wp/wp3003488.jpg',
-//   'https://wallpapercave.com/wp/wp2538828.jpg',
-//   'https://wallpapercave.com/wp/wp3003500.jpg',
-//   'https://wallpapercave.com/wp/wp3003513.jpg',
-//   'https://wallpapercave.com/wp/wp3003529.jpg',
-//   'https://wallpapercave.com/wp/wp3003553.jpg',
-//   'https://wallpapercave.com/wp/wp3003581.jpg',
-// ];
-
 class CategoriesGrid extends StatefulWidget {
   @override
   _CategoriesGridState createState() => _CategoriesGridState();
@@ -32,7 +20,6 @@ class _CategoriesGridState extends State<CategoriesGrid> {
     super.initState();
   }
 
-  //Map<String, List<String>>
   bool isLoading = true;
   final List<String> supnames = [
     "batman",
@@ -129,7 +116,6 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
-                      //fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
