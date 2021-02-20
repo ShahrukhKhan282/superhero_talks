@@ -44,7 +44,6 @@ class _CategoriesGridState extends State<CategoriesGrid> {
     await http.get(url).then((value) {
       data = jsonDecode(value.body) as Map<String, dynamic>;
       supnames.forEach((element) {
-        print(element);
         (data[element]['url'] as List)
             .reversed
             .toList()

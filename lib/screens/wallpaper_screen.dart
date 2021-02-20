@@ -82,43 +82,43 @@ class _WallpaperViewState extends State<WallpaperView> {
         return Dialog(
           backgroundColor: Theme.of(context).backgroundColor,
           child: Container(
-              width: MediaQuery.of(context).size.width * .2,
-              height: MediaQuery.of(context).size.height * .18,
+              // width: MediaQuery.of(context).size.width * .2,
+              // height: MediaQuery.of(context).size.height * .18,
               child: ListView(
-                shrinkWrap: true,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      location = WallpaperManager.HOME_SCREEN;
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Home Screen",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      location = WallpaperManager.LOCK_SCREEN;
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Lock Screen",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      location = WallpaperManager.BOTH_SCREENS;
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "Set Both",
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                ],
-              )),
+            shrinkWrap: true,
+            children: [
+              TextButton(
+                onPressed: () {
+                  location = WallpaperManager.HOME_SCREEN;
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Home Screen",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  location = WallpaperManager.LOCK_SCREEN;
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Lock Screen",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  location = WallpaperManager.BOTH_SCREENS;
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Set Both",
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+            ],
+          )),
         );
       },
     ).then((value) {
