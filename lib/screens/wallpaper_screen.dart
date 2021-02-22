@@ -82,8 +82,6 @@ class _WallpaperViewState extends State<WallpaperView> {
         return Dialog(
           backgroundColor: Theme.of(context).backgroundColor,
           child: Container(
-              // width: MediaQuery.of(context).size.width * .2,
-              // height: MediaQuery.of(context).size.height * .18,
               child: ListView(
             shrinkWrap: true,
             children: [
