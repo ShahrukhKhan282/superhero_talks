@@ -36,7 +36,7 @@ dependencies:
   cached_network_image: any
   permission_handler: ^5.1.0+2
   url_launcher:
-  
+  firebase_admob: ^0.9.3
   change_app_package_name: ^0.1.2
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,6 +48,12 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_name: "^0.0.1"
   flutter_launcher_icons: "^0.8.0"
+  flutter_native_splash: ^0.3.0
+
+flutter_native_splash:
+  image: assets/logo/splash.png
+  color: "#ffffff"
+  
   
 flutter_launcher_name:
   name: "SuperHero Talks - Wallpaper App"

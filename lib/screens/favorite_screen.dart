@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'wallpaper_screen.dart';
+import 'favorite_wallpaper_view.dart';
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -12,13 +12,13 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  List<dynamic> data = [];
   @override
   void initState() {
     _getData();
     super.initState();
   }
 
+  List<dynamic> data = [];
   Box box = Hive.box("urlBox");
   void _getData() {
     data = box.values.toSet().toList();
@@ -234,7 +234,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(
                           builder: (context) =>
-                              WallpaperView(data, index, FavoriteScreen),
+                              FavoriteWallpaperView(data, index),
                         ))
                             .then((value) {
                           setState(() {

@@ -7,6 +7,8 @@ import 'favorite_screen.dart';
 import 'help_screen.dart';
 
 class TabScreen extends StatefulWidget {
+  TabScreen();
+
   @override
   _TabScreenState createState() => _TabScreenState();
 }
@@ -39,7 +41,7 @@ class _TabScreenState extends State<TabScreen> {
     });
   }
 
-  bool isConnected;
+  bool isConnected = true;
   Future<void> _checkInternet() async {
     try {
       final result = await InternetAddress.lookup('example.com');
@@ -57,7 +59,6 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   void initState() {
-    isConnected = true;
     _checkInternet();
     super.initState();
   }

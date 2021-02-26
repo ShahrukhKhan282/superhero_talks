@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
 
 class WallpaperView extends StatefulWidget {
+  final String tag;
   final int index;
   final List data;
-  final Type screen;
-  WallpaperView(this.data, this.index, this.screen);
+  WallpaperView(this.tag, this.data, this.index);
 
   @override
   _WallpaperViewState createState() => _WallpaperViewState();
@@ -30,12 +31,42 @@ class _WallpaperViewState extends State<WallpaperView> {
   String _url;
   int location;
   var file;
+  InterstitialAd intrAD;
+
   @override
   void initState() {
-    _url = widget.data[widget.index];
-
     _getPath();
+    _url = "https://iamshahrukh.net/wallpapers/" +
+        widget.tag +
+        "/" +
+        widget.data[widget.index];
+    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+      keywords: <String>['superhero', 'marvel'],
+      contentUrl: 'https://iamshahrukh.tk',
+      childDirected: false,
+      testDevices: <String>[],
+    );
+    intrAD = InterstitialAd(
+      adUnitId: "ca-app-pub-1508272667831415/3174877348",
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("IntrAD event is $event");
+      },
+    );
+    _loadAd();
     super.initState();
+  }
+
+  Future<void> _loadAd() async {
+    await FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-1508272667831415~1768558221")
+        .then((value) {
+      intrAD.load();
+    });
+  }
+
+  void _startIntrAd() {
+    intrAD.show();
   }
 
   _getPath() async {
@@ -69,6 +100,7 @@ class _WallpaperViewState extends State<WallpaperView> {
             content: Text("Wallpaper Downloaded!"),
           ),
         );
+        _startIntrAd();
       });
     } on PlatformException catch (error) {
       print(error);
@@ -162,81 +194,21 @@ class _WallpaperViewState extends State<WallpaperView> {
             content: Text("Wallpaper Set Successfully"),
           ),
         );
+        _startIntrAd();
       });
     } on Exception catch (e) {
       print(e);
     }
   }
 
-  void _addToFavorite(String url) {
+  void _addToFavorite() {
     Box box = Hive.box("urlBox");
-    box.add(url);
+    box.add(_url);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Added To Favorites."),
       ),
     );
-  }
-
-  void _removeFavorite(int index) {
-    Platform.isIOS
-        ? showCupertinoDialog(
-            context: context,
-            builder: (context) {
-              return CupertinoAlertDialog(
-                title: Text("Remove From Favorite."),
-                content: Text("Are you sure?"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Box box = Hive.box("urlBox");
-                      box.deleteAt(index);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Removed From Favorites.")));
-                    },
-                    child: Text("Yes"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("No"),
-                  ),
-                ],
-              );
-            })
-        : showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("Remove From Favorite."),
-                content: Text("Are you sure?"),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Box box = Hive.box("urlBox");
-                      box.deleteAt(index);
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Removed From Favorites."),
-                        ),
-                      );
-                    },
-                    child: Text("Yes"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("No"),
-                  ),
-                ],
-              );
-            },
-          );
   }
 
   @override
@@ -255,24 +227,13 @@ class _WallpaperViewState extends State<WallpaperView> {
         ),
         children: [
           SpeedDialChild(
-            label: widget.screen.toString() == "FavoriteScreen"
-                ? 'Remove From Favorites'
-                : 'Add To Favorites',
+            label: 'Add To Favorites',
             child: IconButton(
               icon: Icon(
-                widget.screen.toString() == "FavoriteScreen"
-                    ? Icons.favorite
-                    : Icons.favorite_border,
+                Icons.favorite_border,
                 color: Colors.white,
               ),
-              onPressed: () => {
-                if (widget.screen.toString() == "FavoriteScreen")
-                  {
-                    _removeFavorite(widget.data.length - widget.index - 1),
-                  }
-                else
-                  {_addToFavorite(_url)}
-              },
+              onPressed: () => _addToFavorite(),
             ),
           ),
           SpeedDialChild(
@@ -374,7 +335,11 @@ class _WallpaperViewState extends State<WallpaperView> {
       backgroundColor: Theme.of(context).backgroundColor,
       body: PageView(
           onPageChanged: (value) {
-            _url = widget.data[value];
+            _url = "https://iamshahrukh.net/wallpapers/" +
+                widget.tag +
+                "/" +
+                widget.data[value];
+            print(_url);
           },
           controller: _pageController,
           children: widget.data.map((e) {
@@ -385,7 +350,10 @@ class _WallpaperViewState extends State<WallpaperView> {
                   'assets/logo/loading.gif',
                   fit: BoxFit.cover,
                 ),
-                imageUrl: e,
+                imageUrl: "https://iamshahrukh.net/wallpapers/" +
+                    widget.tag +
+                    "/" +
+                    e,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),

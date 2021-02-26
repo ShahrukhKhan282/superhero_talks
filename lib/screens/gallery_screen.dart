@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'wallpaper_screen.dart';
 
 class GalleryScreen extends StatefulWidget {
-  final String url, title, tag;
-  GalleryScreen(this.url, this.title, this.tag);
+  final title, tag;
+  GalleryScreen(this.title, this.tag);
 
   @override
   _GalleryScreenState createState() => _GalleryScreenState();
@@ -20,27 +20,25 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   bool isLoading = true;
   Future<void> fetchUrl() async {
-    url =
-        "https://superhero-wallpapers-703d6-default-rtdb.firebaseio.com/wallpaper/" +
-            widget.tag +
-            "/url.json";
-    final response = await http.get(url);
-    data = jsonDecode(response.body) as List;
-    data = data.reversed.toList();
-  }
-
-  @override
-  initState() {
-    fetchUrl().then((value) {
+    url = "https://iamshahrukh.net/wallpapers/" + widget.tag + "/fetch.php";
+    await http.get(url).then((value) {
       setState(() {
+        data = jsonDecode(value.body) as List;
+        data = data.reversed.toList();
         isLoading = false;
       });
     });
-    super.initState();
   }
 
   double _scaleFactor = 250;
   double _baseScaleFactor = 100.0;
+
+  @override
+  void initState() {
+    fetchUrl();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +72,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   background: Hero(
                     tag: widget.tag,
                     child: Image.asset(
-                      'assets/logo/' + widget.url,
+                      'assets/logo/' + widget.tag + ".jpg",
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -83,12 +81,14 @@ class _GalleryScreenState extends State<GalleryScreen> {
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
                 return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          WallpaperView(data, index, GalleryScreen),
-                    ));
-                  },
+                  onTap: isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                WallpaperView(widget.tag, data, index),
+                          ));
+                        },
                   child: Card(
                     color: Theme.of(context).backgroundColor,
                     shape: RoundedRectangleBorder(
@@ -109,7 +109,11 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                   'assets/logo/loading.gif',
                                   fit: BoxFit.cover,
                                 ),
-                                imageUrl: data[index],
+                                imageUrl:
+                                    "https://iamshahrukh.net/wallpapers/" +
+                                        widget.tag +
+                                        "/" +
+                                        data[index],
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                               ),

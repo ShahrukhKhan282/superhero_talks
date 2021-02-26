@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "524494271788",
+    "firebase_url": "https://superhero-wallpapers-703d6-default-rtdb.firebaseio.com",
+    "project_id": "superhero-wallpapers-703d6",
+    "storage_bucket": "superhero-wallpapers-703d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524494271788:android:7fb159193f2dccb7d86889",
+        "android_client_info": {
+          "package_name": "net.iamshahrukh.superhero_talks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524494271788-blud9p7nduv8cllkuts10shg0rqns15q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApUUVq0iNPGrzNasvl9ZXX08QpbWKQLIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524494271788-blud9p7nduv8cllkuts10shg0rqns15q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "524494271788-l8tv337c5qkv46dsol7chq28v897fc6s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.admin"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1508272667831415~1768558221"
+    }
+  ],
+  "configuration_version": "1"
+}

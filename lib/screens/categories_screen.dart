@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'wallpaper_screen.dart';
 import 'gallery_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,87 +11,49 @@ class CategoriesGrid extends StatefulWidget {
 }
 
 class _CategoriesGridState extends State<CategoriesGrid> {
-  List<String> imgList = [];
+  bool isLoading;
   @override
   void initState() {
-    _getRecentImages();
+    isLoading = true;
+    getDates();
     super.initState();
   }
 
-  bool isLoading = true;
-  final List<String> supnames = [
-    "batman",
-    "blackpanther",
-    "captainamerica",
-    "deadpool",
-    "doctorstrange",
-    "flash",
-    "ironman",
-    "joker",
-    "spiderman",
-    "superman",
-    "thanos",
-    "thor",
-    "venom",
-    "wanda"
+  final List<dynamic> imgList = [
+    "1.jpg",
+    "2.jpeg",
+    "3.jpg",
   ];
-  Future<void> _getRecentImages() async {
-    Map<String, dynamic> data = {};
-    String url =
-        "https://superhero-wallpapers-703d6-default-rtdb.firebaseio.com/wallpaper.json";
-    await http.get(url).then((value) {
-      data = jsonDecode(value.body) as Map<String, dynamic>;
-      supnames.forEach((element) {
-        (data[element]['url'] as List)
-            .reversed
-            .toList()
-            .sublist(0, 2)
-            .forEach((e) {
-          imgList.add(e.toString());
+
+  List<dynamic> dateList = [];
+  Future<void> getDates() async {
+    await http.get("https://iamshahrukh.net/wallpapers/fetchdates.php").then(
+      (value) {
+        dateList = jsonDecode(value.body) as List<dynamic>;
+        setState(() {
+          isLoading = false;
         });
-      });
-      setState(() {
-        isLoading = false;
-      });
-    });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> imageSliders = imgList
-        .map((item) => InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      WallpaperView(imgList, 0, CategoriesGrid),
-                ));
-              },
-              child: Card(
-                color: Theme.of(context).backgroundColor,
-                elevation: 10,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5.0),
-                  ),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => Image.asset(
-                      'assets/logo/loading.gif',
-                      fit: BoxFit.cover,
-                    ),
-                    imageUrl: item,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                ),
-              ),
-            ))
+        .map(
+          (item) => Image.asset("assets/logo/" + item),
+        )
         .toList();
-    Widget buildTile(String url, String title, String tag) {
+    Widget buildTile(String title, String tag, String date) {
+      final dateAgo = isLoading
+          ? 0
+          : DateTime.now().difference(DateTime.parse(date)).inDays;
+
       return InkWell(
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => GalleryScreen(url, title, tag),
+              builder: (context) => GalleryScreen(title, tag),
             ),
           );
         },
@@ -109,6 +69,14 @@ class _CategoriesGridState extends State<CategoriesGrid> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: GridTile(
+                header: Center(
+                  child: Text(
+                    dateAgo == 0
+                        ? "Updated Today!"
+                        : "Updated $dateAgo Days Ago",
+                    style: TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                ),
                 footer: Center(
                   child: Text(
                     title,
@@ -121,7 +89,7 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                 child: Hero(
                   tag: tag,
                   child: Image.asset(
-                    'assets/logo/' + url,
+                    'assets/logo/' + tag + ".jpg",
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -138,51 +106,41 @@ class _CategoriesGridState extends State<CategoriesGrid> {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
+              leading: Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Image.asset("assets/logo/superherotalks.png"),
+              ),
+              title: Text(
+                "SuperHero Talks",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+              ),
               stretch: true,
-              expandedHeight: MediaQuery.of(context).size.height * .37,
+              expandedHeight: MediaQuery.of(context).size.height * .35,
               flexibleSpace: FlexibleSpaceBar(
                 stretchModes: [StretchMode.zoomBackground],
                 background: Container(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(left: 10, top: 10),
-                      width: double.infinity,
-                      child: Text(
-                        "Recently Added!",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),
-                      ),
-                    ),
                     Flexible(
                       fit: FlexFit.loose,
                       child: Center(
                         child: Container(
-                          height: MediaQuery.of(context).size.height * .25,
-                          child: isLoading
-                              ? Container(
-                                  child: Center(
-                                    child: Text(
-                                      "Loading...",
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    ),
-                                  ),
-                                )
-                              : CarouselSlider(
-                                  options: CarouselOptions(
-                                    viewportFraction: 0.3,
-                                    autoPlay: true,
-                                    aspectRatio: 2,
-                                    enlargeCenterPage: true,
-                                  ),
-                                  items: imageSliders,
-                                ),
+                          padding: EdgeInsets.only(top: 50),
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              aspectRatio: 2,
+                              enlargeCenterPage: true,
+                            ),
+                            items: imageSliders,
+                          ),
                         ),
                       ),
                     ),
@@ -208,22 +166,24 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               childAspectRatio: 1,
               crossAxisCount: 2,
               children: [
-                buildTile('Ironman.jpeg', "Iron Man", 'ironman'),
-                buildTile('Superman.jpg', "Superman", 'superman'),
-                buildTile('BATMAN.jpg', "Batman", 'batman'),
+                buildTile("Iron Man", 'ironman', isLoading ? "" : dateList[1]),
+                buildTile("Superman", 'superman', isLoading ? "" : dateList[6]),
+                buildTile("Batman", 'batman', isLoading ? "" : dateList[9]),
+                buildTile("Captain America", 'captainamerica',
+                    isLoading ? "" : dateList[14]),
                 buildTile(
-                    'CaptainAmerica.jpg', "Captain America", 'captainamerica'),
-                buildTile('SpiderMan.jpeg', "Spider-Man", 'spiderman'),
-                buildTile('flash.jpg', "Flash", 'flash'),
-                buildTile('Deadpool.jpg', "Deadpool", 'deadpool'),
-                buildTile('Joker.jpg', "Joker", 'joker'),
-                buildTile('Venom.jpg', "Venom", 'venom'),
-                buildTile('Thanos.jpg', "Thanos", 'thanos'),
-                buildTile('BlackPanther.jpg', "Black Panther", 'blackpanther'),
-                buildTile('Wanda.jpg', "Wanda", 'wanda'),
-                buildTile(
-                    'DoctorStrange.jpg', "Doctor Strange", 'doctorstrange'),
-                buildTile('Thor.jpg', "Thor", 'thor'),
+                    "Spider-Man", 'spiderman', isLoading ? "" : dateList[8]),
+                buildTile("Flash", 'flash', isLoading ? "" : dateList[10]),
+                buildTile("Deadpool", 'deadpool', isLoading ? "" : dateList[3]),
+                buildTile("Joker", 'joker', isLoading ? "" : dateList[4]),
+                buildTile("Venom", 'venom', isLoading ? "" : dateList[5]),
+                buildTile("Thanos", 'thanos', isLoading ? "" : dateList[12]),
+                buildTile("Black Panther", 'blackpanther',
+                    isLoading ? "" : dateList[11]),
+                buildTile("Wanda", 'wanda', isLoading ? "" : dateList[2]),
+                buildTile("Doctor Strange", 'doctorstrange',
+                    isLoading ? "" : dateList[0]),
+                buildTile("Thor", 'thor', isLoading ? "" : dateList[7]),
               ],
             ),
           ],
