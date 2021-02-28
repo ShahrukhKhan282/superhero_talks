@@ -71,9 +71,11 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               child: GridTile(
                 header: Center(
                   child: Text(
-                    dateAgo == 0
-                        ? "Updated Today!"
-                        : "Updated $dateAgo Days Ago",
+                    isLoading
+                        ? ""
+                        : dateAgo == 0
+                            ? "Updated Today!"
+                            : "Updated $dateAgo Days Ago",
                     style: TextStyle(color: Colors.white, fontSize: 10),
                   ),
                 ),

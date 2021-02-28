@@ -202,7 +202,7 @@ class _WallpaperViewState extends State<WallpaperView> {
   }
 
   void _addToFavorite() {
-    Box box = Hive.box("urlBox");
+    Box box = Hive.box("urlBoxx");
     box.add(_url);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

@@ -7,7 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appdirectory = await path.getApplicationDocumentsDirectory();
   Hive.init(appdirectory.path);
-  await Hive.openBox("urlBox");
+  await Hive.openBox("urlBoxx");
   runApp(MyApp());
 }
 

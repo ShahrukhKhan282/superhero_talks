@@ -208,7 +208,7 @@ class _FavoriteWallpaperViewState extends State<FavoriteWallpaperView> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Box box = Hive.box("urlBox");
+                      Box box = Hive.box("urlBoxx");
                       box.deleteAt(index);
 
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -234,7 +234,7 @@ class _FavoriteWallpaperViewState extends State<FavoriteWallpaperView> {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      Box box = Hive.box("urlBox");
+                      Box box = Hive.box("urlBoxx");
                       box.deleteAt(index);
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
@@ -384,7 +384,6 @@ class _FavoriteWallpaperViewState extends State<FavoriteWallpaperView> {
       body: PageView(
           onPageChanged: (value) {
             _url = widget.data[value];
-            print(_url);
           },
           controller: _pageController,
           children: widget.data.map((e) {

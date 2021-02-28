@@ -19,7 +19,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   List<dynamic> data = [];
-  Box box = Hive.box("urlBox");
+  Box box = Hive.box("urlBoxx");
   void _getData() {
     data = box.values.toSet().toList();
     box.deleteAll(box.keys);
@@ -42,7 +42,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        Box box = Hive.box("urlBox");
+                        Box box = Hive.box("urlBoxx");
                         box.deleteAt(index);
                         _getData();
                       });
@@ -73,7 +73,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     onPressed: () {
                       setState(
                         () {
-                          Box box = Hive.box("urlBox");
+                          Box box = Hive.box("urlBoxx");
                           box.deleteAt(index);
                           _getData();
                         },
