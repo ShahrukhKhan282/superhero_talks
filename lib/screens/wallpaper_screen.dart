@@ -41,8 +41,14 @@ class _WallpaperViewState extends State<WallpaperView> {
         "/" +
         widget.data[widget.index];
     MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      keywords: <String>['superhero', 'marvel'],
-      contentUrl: 'https://iamshahrukh.tk',
+      keywords: <String>[
+        'superhero',
+        'marvel',
+        'comics',
+        'mcu',
+        'movies',
+      ],
+      contentUrl: 'https://iamshahrukh.net',
       childDirected: false,
       testDevices: <String>[],
     );
