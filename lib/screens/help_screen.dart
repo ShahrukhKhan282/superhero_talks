@@ -77,6 +77,13 @@ class HelpPage extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
             _buildTile(
+                "Q. Wallpaper not showing on lockscreen?",
+                "Some companies like MI/Redmi doesn't allow third party apps to change lockscreen wallpaper due to security reasons.\nQuick Fix: Download wallpaper first and then set wallpaper from your gallery app.",
+                context),
+            Divider(
+              color: Theme.of(context).primaryColor,
+            ),
+            _buildTile(
                 "Q. How to enable Dark Mode?",
                 "This app follows your system's default mode.\nEnable dark mode in your display settings and this app will automatically change its theme to dark mode.",
                 context),

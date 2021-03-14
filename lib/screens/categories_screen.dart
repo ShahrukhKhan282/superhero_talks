@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:new_version/new_version.dart';
 import 'gallery_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,12 +12,20 @@ class CategoriesGrid extends StatefulWidget {
 }
 
 class _CategoriesGridState extends State<CategoriesGrid> {
-  bool isLoading;
+  bool isLoading = true;
+
   @override
   void initState() {
-    isLoading = true;
-    getDates();
     super.initState();
+    checkForUpdate();
+    getDates();
+  }
+
+  Future<void> checkForUpdate() async {
+    NewVersion(
+      context: context,
+      androidId: 'net.iamshahrukh.superhero_talks',
+    ).showAlertIfNecessary();
   }
 
   final List<dynamic> imgList = [
