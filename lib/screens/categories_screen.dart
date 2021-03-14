@@ -30,7 +30,7 @@ class _CategoriesGridState extends State<CategoriesGrid> {
 
   final List<dynamic> imgList = [
     "1.jpg",
-    "2.jpeg",
+    "2.jpg",
     "3.jpg",
   ];
 
