@@ -66,35 +66,48 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            onTap: _selectPage,
-            backgroundColor: Theme.of(context).backgroundColor,
-            unselectedItemColor: Theme.of(context).primaryColor,
-            selectedItemColor: Theme.of(context).accentColor,
-            currentIndex: _selectedPageIndex,
-            items: [
-              BottomNavigationBarItem(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  icon: Icon(Icons.category),
-                  label: 'Categories'),
-              BottomNavigationBarItem(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  icon: Icon(Icons.favorite),
-                  label: 'Favorites'),
-              BottomNavigationBarItem(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  icon: Icon(Icons.group_rounded),
-                  label: 'About Us'),
-              BottomNavigationBarItem(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  icon: Icon(Icons.help),
-                  label: 'Help'),
-            ]),
-        body: isConnected
-            ? _pages[_selectedPageIndex]['page']
-            : Center(
-                child: Text("No Internet Connection"),
-              ));
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: _selectPage,
+          backgroundColor: Theme.of(context).backgroundColor,
+          unselectedItemColor: Theme.of(context).primaryColor,
+          selectedItemColor: Theme.of(context).accentColor,
+          currentIndex: _selectedPageIndex,
+          items: [
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).backgroundColor,
+                icon: Icon(Icons.category),
+                label: 'Categories'),
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).backgroundColor,
+                icon: Icon(Icons.favorite),
+                label: 'Favorites'),
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).backgroundColor,
+                icon: Icon(Icons.group_rounded),
+                label: 'About Us'),
+            BottomNavigationBarItem(
+                backgroundColor: Theme.of(context).backgroundColor,
+                icon: Icon(Icons.help),
+                label: 'Help'),
+          ]),
+      body: isConnected
+          ? _pages[_selectedPageIndex]['page']
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("No Internet Connection"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                    onPressed: _checkInternet,
+                    child: Text("Refresh"),
+                  ),
+                ],
+              ),
+            ),
+    );
   }
 }
