@@ -46,6 +46,22 @@ class _CategoriesGridState extends State<CategoriesGrid> {
     );
   }
 
+  double childAspectRatio = 1;
+  int crossAxisCount = 2;
+  void _changeGrid() {
+    if (childAspectRatio == 1) {
+      setState(() {
+        childAspectRatio = 2;
+        crossAxisCount = 1;
+      });
+    } else {
+      setState(() {
+        childAspectRatio = 1;
+        crossAxisCount = 2;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> imageSliders = imgList
@@ -158,13 +174,24 @@ class _CategoriesGridState extends State<CategoriesGrid> {
                     Container(
                       margin: EdgeInsets.only(left: 10),
                       width: double.infinity,
-                      child: Text(
-                        "Categories",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Categories",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          IconButton(
+                              iconSize: 35,
+                              icon: crossAxisCount == 2
+                                  ? Icon(Icons.list)
+                                  : Icon(Icons.grid_view),
+                              onPressed: _changeGrid)
+                        ],
                       ),
                     ),
                   ],
@@ -174,8 +201,8 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               elevation: 0,
             ),
             SliverGrid.count(
-              childAspectRatio: 1,
-              crossAxisCount: 2,
+              childAspectRatio: childAspectRatio,
+              crossAxisCount: crossAxisCount,
               children: [
                 buildTile("Iron Man", 'ironman', isLoading ? "" : dateList[2]),
                 buildTile("Superman", 'superman', isLoading ? "" : dateList[7]),
