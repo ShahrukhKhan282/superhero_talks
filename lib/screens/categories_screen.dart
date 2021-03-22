@@ -34,11 +34,12 @@ class _CategoriesGridState extends State<CategoriesGrid> {
     "3.jpg",
   ];
 
-  List<dynamic> dateList = [];
+  Map<String, dynamic> dateList = {};
   Future<void> getDates() async {
-    await http.get("https://iamshahrukh.net/wallpapers/fetchdates.php").then(
+    await http.get("https://iamshahrukh.net/wallpapers/test.php").then(
       (value) {
-        dateList = jsonDecode(value.body) as List<dynamic>;
+        dateList = jsonDecode(value.body) as Map<String, dynamic>;
+
         setState(() {
           isLoading = false;
         });
@@ -204,34 +205,44 @@ class _CategoriesGridState extends State<CategoriesGrid> {
               childAspectRatio: childAspectRatio,
               crossAxisCount: crossAxisCount,
               children: [
-                buildTile("Iron Man", 'ironman', isLoading ? "" : dateList[2]),
-                buildTile("Superman", 'superman', isLoading ? "" : dateList[7]),
-                buildTile("Batman", 'batman', isLoading ? "" : dateList[11]),
+                buildTile("Iron Man", 'ironman',
+                    isLoading ? "" : dateList["ironman"]),
+                buildTile("Superman", 'superman',
+                    isLoading ? "" : dateList['superman']),
+                buildTile(
+                    "Batman", 'batman', isLoading ? "" : dateList['batman']),
                 buildTile("Captain America", 'captainamerica',
-                    isLoading ? "" : dateList[19]),
+                    isLoading ? "" : dateList['captainamerica']),
+                buildTile("Spider-Man", 'spiderman',
+                    isLoading ? "" : dateList['spiderman']),
+                buildTile("Flash", 'flash', isLoading ? "" : dateList['flash']),
+                buildTile("Wolverine", 'wolverine',
+                    isLoading ? "" : dateList['wolverine']),
+                buildTile("Hulk", 'hulk', isLoading ? "" : dateList['hulk']),
+                buildTile("Deadpool", 'deadpool',
+                    isLoading ? "" : dateList['deadpool']),
+                buildTile("Joker", 'joker', isLoading ? "" : dateList['joker']),
+                buildTile("Venom", 'venom', isLoading ? "" : dateList['venom']),
                 buildTile(
-                    "Spider-Man", 'spiderman', isLoading ? "" : dateList[9]),
-                buildTile("Flash", 'flash', isLoading ? "" : dateList[12]),
-                buildTile("Deadpool", 'deadpool', isLoading ? "" : dateList[4]),
-                buildTile("Joker", 'joker', isLoading ? "" : dateList[5]),
-                buildTile("Venom", 'venom', isLoading ? "" : dateList[6]),
-                buildTile("Thanos", 'thanos', isLoading ? "" : dateList[16]),
+                    "Thanos", 'thanos', isLoading ? "" : dateList['thanos']),
                 buildTile("Black Panther", 'blackpanther',
-                    isLoading ? "" : dateList[14]),
-                buildTile("Wanda", 'wanda', isLoading ? "" : dateList[3]),
-                buildTile(
-                    "Wolverine", 'wolverine', isLoading ? "" : dateList[10]),
-                buildTile("Hulk", 'hulk', isLoading ? "" : dateList[0]),
-                buildTile("Thor", 'thor', isLoading ? "" : dateList[8]),
+                    isLoading ? "" : dateList['blackpanther']),
+                buildTile("Wanda", 'wanda', isLoading ? "" : dateList['wanda']),
+                buildTile("Thor", 'thor', isLoading ? "" : dateList['thor']),
                 buildTile("Doctor Strange", 'doctorstrange',
-                    isLoading ? "" : dateList[1]),
-                buildTile("Vision", 'vision', isLoading ? "" : dateList[17]),
+                    isLoading ? "" : dateList['doctorstrange']),
+                buildTile(
+                    "Vision", 'vision', isLoading ? "" : dateList['vision']),
                 buildTile("Winter Soldier", 'wintersoldier',
-                    isLoading ? "" : dateList[13]),
+                    isLoading ? "" : dateList['wintersoldier']),
+                buildTile("Avengers", 'avengers',
+                    isLoading ? "" : dateList['avengers']),
+                buildTile("Ghost Rider", 'ghostrider',
+                    isLoading ? "" : dateList['ghostrider']),
+                buildTile("Wonder Woman", 'wonderwoman',
+                    isLoading ? "" : dateList['wonderwoman']),
                 buildTile(
-                    "Avengers", 'avengers', isLoading ? "" : dateList[15]),
-                buildTile(
-                    "Ghost Rider", 'ghostrider', isLoading ? "" : dateList[20]),
+                    "Aquaman", 'aquaman', isLoading ? "" : dateList['aquaman']),
               ],
             ),
           ],
