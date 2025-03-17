@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_admob/firebase_admob.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -31,7 +29,7 @@ class _WallpaperViewState extends State<WallpaperView> {
   String _url;
   int location;
   var file;
-  InterstitialAd intrAD;
+  //InterstitialAd intrAD;
 
   @override
   void initState() {
@@ -40,40 +38,40 @@ class _WallpaperViewState extends State<WallpaperView> {
         widget.tag +
         "/" +
         widget.data[widget.index];
-    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      keywords: <String>[
-        'superhero',
-        'marvel',
-        'comics',
-        'mcu',
-        'movies',
-      ],
-      contentUrl: 'https://iamshahrukh.net',
-      childDirected: false,
-      testDevices: <String>[],
-    );
-    intrAD = InterstitialAd(
-      adUnitId: "ca-app-pub-1508272667831415/3174877348",
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("IntrAD event is $event");
-      },
-    );
-    _loadAd();
+    // MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    //   keywords: <String>[
+    //     'superhero',
+    //     'marvel',
+    //     'comics',
+    //     'mcu',
+    //     'movies',
+    //   ],
+    //   contentUrl: 'https://iamshahrukh.net',
+    //   childDirected: false,
+    //   testDevices: <String>[],
+    // );
+    // intrAD = InterstitialAd(
+    //   adUnitId: "ca-app-pub-1508272667831415/3174877348",
+    //   targetingInfo: targetingInfo,
+    //   listener: (MobileAdEvent event) {
+    //     print("IntrAD event is $event");
+    //   },
+    // );
+    // _loadAd();
     super.initState();
   }
 
-  Future<void> _loadAd() async {
-    await FirebaseAdMob.instance
-        .initialize(appId: "ca-app-pub-1508272667831415~1768558221")
-        .then((value) {
-      intrAD.load();
-    });
-  }
+  // Future<void> _loadAd() async {
+  //   await FirebaseAdMob.instance
+  //       .initialize(appId: "ca-app-pub-1508272667831415~1768558221")
+  //       .then((value) {
+  //     intrAD.load();
+  //   });
+  // }
 
-  void _startIntrAd() {
-    intrAD.show();
-  }
+  // void _startIntrAd() {
+  //   intrAD.show();
+  // }
 
   _getPath() async {
     file = await DefaultCacheManager().getSingleFile(_url);
@@ -106,7 +104,7 @@ class _WallpaperViewState extends State<WallpaperView> {
             content: Text("Wallpaper Downloaded!"),
           ),
         );
-        _startIntrAd();
+        // _startIntrAd();
       });
     } on PlatformException catch (error) {
       print(error);
@@ -200,7 +198,7 @@ class _WallpaperViewState extends State<WallpaperView> {
             content: Text("Wallpaper Set Successfully"),
           ),
         );
-        _startIntrAd();
+        //   _startIntrAd();
       });
     } on Exception catch (e) {
       print(e);
